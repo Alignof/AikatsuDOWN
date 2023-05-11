@@ -3,7 +3,7 @@ use std::fs::File;
 #[derive(serde::Deserialize)]
 struct CsvData {
     id: u32,
-    _words: String,
+    words: String,
     iamge_url: String,
     _twitter_url: String,
     _tags: Vec<String>,
@@ -20,11 +20,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let csv_data: CsvData = record?.deserialize(None)?;
         let url = csv_data.iamge_url;
         let id = csv_data.id;
-        let image_bytes = reqwest::get(url).await?.bytes().await?;
+        let image_bytes = reqwest::get(&url).await?.bytes().await?;
         let mut saving_file = File::create(format!("{save_path}{id}.jpg"))?;
         std::io::copy(&mut image_bytes.as_ref(), &mut saving_file)?;
 
-        tokio::time::sleep(tokio::time::Duration::from_millis(1000)).await;
+        println!("{id}: {} from {url}", csv_data.words);
+        tokio::time::sleep(tokio::time::Duration::from_millis(2000)).await;
     }
 
     Ok(())
