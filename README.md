@@ -1,2 +1,2 @@
 # AikatsuDOWN
-downloader for AikatsUP!
+Thank you AikatsUP!, forever AikatsUP!
