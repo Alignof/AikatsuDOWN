@@ -18,8 +18,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     for record in reader.records() {
         let csv_data: CsvData = record?.deserialize(None)?;
-        let url = csv_data.iamge_url;
         let id = csv_data.id;
+        let url = csv_data.iamge_url;
         let image_bytes = reqwest::get(&url).await?.bytes().await?;
         let mut saving_file = File::create(format!("{save_path}{id}.jpg"))?;
         std::io::copy(&mut image_bytes.as_ref(), &mut saving_file)?;
