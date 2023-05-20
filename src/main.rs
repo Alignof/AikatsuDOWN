@@ -6,7 +6,7 @@ use std::path::Path;
 struct CsvData {
     id: u32,
     words: String,
-    iamge_url: String,
+    image_url: String,
     _twitter_url: String,
     _tags: Vec<String>,
 }
@@ -21,7 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     for record in reader.records() {
         let csv_data: CsvData = record?.deserialize(None)?;
         let id = csv_data.id;
-        let url = csv_data.iamge_url;
+        let url = csv_data.image_url;
         let extension = Path::new(&url).extension().and_then(OsStr::to_str).unwrap();
         let image_bytes = reqwest::get(&url).await?.bytes().await?;
         let mut saving_file = File::create(format!("{save_path}{id}.{extension}"))?;
